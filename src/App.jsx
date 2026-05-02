@@ -11,25 +11,103 @@ import AddEventModal from './components/AddEventModal'
 import Footer from './components/Footer'
 
 function App() {
+  // Default high-fidelity documentary project (Source of Truth for Defaults)
+  const defaultActivities = [
+    {
+      id: 'hug-a-tree',
+      number: '01',
+      title: 'Hug a Tree',
+      date: '2026-03-20',
+      location: 'Davao City',
+      organization: 'University of Southeastern Philippines',
+      description: 'The tree I chose to observe stands tall within our school campus, its massive trunk gnarled and textured with deep ridges of bark that speak to years of quiet growth. Up close, the bark felt rough and layered, almost like cracked earth, with patches of moss and lichen clinging to its surface — signs of a thriving microhabitat on its own skin. The tree\'s branches fork dramatically near the top, spreading outward in thick, heavy limbs that cast generous shade over the surrounding concrete. Despite being rooted in an urban environment, the tree seemed to breathe life into the space around it — small plants and ground cover grew at its base, and the canopy above filtered the harsh midday sunlight into something gentler and cooler.\n\nWrapping my arms around the trunk and looking up at its branches, I felt something unexpectedly grounding — like I was briefly tethered to something much older and more patient than anything in my daily routine. It reminded me to slow down, even for just a few minutes, in the middle of everything busy. Trees are easy to overlook precisely because they are always there, but their role in our ecosystem is immense: they produce the oxygen we breathe, regulate temperature, prevent soil erosion, store carbon, and provide shelter for countless organisms. In a campus setting, a single tree like this one quietly improves air quality, reduces heat, and offers a space of calm amid the noise. This activity was a simple but meaningful reminder that caring for the environment starts with something as small as noticing — and appreciating — what is already around us.',
+      photos: [
+        { src: '/uploads/activities/1_Hug_Tree/1.jpg', caption: 'My First Time Hugging a Tree', position: 'left top', zoom: 'zoom' },
+        { src: '/uploads/activities/1_Hug_Tree/2.jpg', caption: 'The Sense of Relief feeling the oldest tree in the Campus', position: 'center top', zoom: 'zoom' },
+        { src: '/uploads/activities/1_Hug_Tree/3.jpg', caption: 'Oldest Tree in the Campus', position: 'left top', zoom: 'zoom' }
+      ],
+      certificate: { org: '', date: '', image: '' },
+      reflection: '"Slow down, Relax, Even for just a few minutes, in the middle of everything Busy"',
+      hoursOfService: 1,
+      volunteersEngaged: 2,
+      livesTouched: 5
+    },
+    {
+      id: 'orphanage-service',
+      number: '02',
+      title: 'An Orphanage Community Service',
+      date: '2026-04-17',
+      location: 'Tugbok, Davao City, Davao del Sur',
+      organization: 'Tugbok, Davao City, Davao del Sur',
+      description: 'The Field of Dreams Children\'s Charity Foundation sits quietly in Purok 1, Biao Guianga, Tugbok District — a place that, from the outside, looks simple, but the moment you step inside, you realize it holds something much bigger than its walls. On April 17, 2026, a combined team of CAS and CIC students spent the morning with the children there, and what was supposed to be just a community service activity turned into one of those experiences that stays with you longer than you expect.\n\nWe arrived at 8:00 AM and were welcomed by Mr. Jonathan Cabaljog, the Center Head, and Mr. Leonard Culanag Jr. The children were already gathered, and just seeing their energy that early in the morning set the tone for everything that followed. As one of the event heads representing CIC, I worked alongside CAS students to coordinate the flow of the program — from the opening remarks all the way to the parlor games and snack distribution. What made this collaboration feel special was seeing two colleges with different backgrounds come together for the same purpose. Ms. Rolyn Ann Floresta Bendanillo led an environmental talk that connected well with the kids, reminding them that even small habits like proper waste disposal and caring for plants are acts of love for the world they live in. The B-Relay game and the B-Wish Tree activity brought out a lot of laughter, which honestly made the whole morning feel lighter and more meaningful.',
+      photos: [
+        { src: '/uploads/activities/2_Orphanage/1.JPG', caption: 'Field of Dreams with the Orphanage Kids', position: 'center center', zoom: 'zoom' },
+        { src: '/uploads/activities/2_Orphanage/2.JPG', caption: 'CIC Students at FOD', position: 'center center', zoom: 'zoom' },
+        { src: '/uploads/activities/2_Orphanage/3.JPG', caption: 'CIC x CAS Students at FOD', position: 'center center', zoom: 'zoom' }
+      ],
+      certificate: { 
+        org: 'Field of Dreams Children’s Charity Foundation Inc.', 
+        date: '2026-04-17', 
+        image: '/uploads/activities/2_Certificate/1.jpg' 
+      },
+      reflection: '"Protecting the environment and caring for people are not two separate things. They are part of the same responsibility."',
+      hoursOfService: 5,
+      volunteersEngaged: 15,
+      livesTouched: 21
+    },
+    {
+      id: 'coastal-restoration',
+      number: '03',
+      title: 'Coastal Restoration Project',
+      date: '2026-05-10',
+      location: 'Pacific Shores',
+      organization: 'Ocean Guardian Alliance',
+      description: 'Participated in a large-scale coastal cleanup and mangrove planting initiative. We removed over 200kg of marine debris and planted 50 mangrove saplings to prevent coastal erosion.',
+      photos: [
+        { src: 'https://picsum.photos/seed/ocean1/800/600', caption: 'Gathering at dawn for the restoration briefing.', position: 'center top', zoom: 'wide' },
+        { src: 'https://picsum.photos/seed/ocean2/800/600', caption: 'Planting mangrove saplings in the intertidal zone.', position: 'center center', zoom: 'zoom' },
+        { src: 'https://picsum.photos/seed/ocean3/800/600', caption: 'Documenting the diverse micro-ecosystems of the shore.', position: 'center top', zoom: 'zoom' }
+      ],
+      certificate: {
+        org: "Ocean Guardian Alliance",
+        date: "2026-05-10",
+        image: ""
+      },
+      reflection: "The ocean's edge is a mirror. What we leave on the shore, we eventually find back in our own lives.",
+      hoursOfService: 6,
+      volunteersEngaged: 25,
+      livesTouched: 0
+    }
+  ];
+
   // Initialize from LocalStorage or empty array
   const [activities, setActivities] = useState(() => {
     const saved = localStorage.getItem('living_with_me_portfolio');
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
+        let parsed = JSON.parse(saved);
+        
+        // AUTO-SYNC: Ensure Chapter 03 is present if we are on the latest archive version
+        if (parsed.length < 3) {
+          const existingIds = new Set(parsed.map(a => a.id));
+          const missingDefaults = defaultActivities.filter(def => !existingIds.has(def.id));
+          if (missingDefaults.length > 0) {
+            parsed = [...parsed, ...missingDefaults].sort((a, b) => parseInt(a.number) - parseInt(b.number));
+          }
+        }
+
         if (parsed && parsed.length > 0) {
-          // SELF-HEALING: Clear expired blobs and inject local folder paths for known activities
           return parsed.map((activity, actIdx) => {
             return {
               ...activity,
               photos: activity.photos.map((photo, i) => {
                 let currentSrc = photo.src?.startsWith('blob:') ? "" : photo.src;
                 
-                // If the link is empty or broken, auto-link to our new local folders for the first two activities
+                // Auto-link local folders for first two activities
                 if (!currentSrc || currentSrc.trim() === '') {
-                  if (actIdx === 0) {
+                  if (activity.id === 'hug-a-tree') {
                     currentSrc = `/uploads/activities/1_Hug_Tree/${i + 1}.jpg`;
-                  } else if (actIdx === 1) {
+                  } else if (activity.id === 'orphanage-service') {
                     currentSrc = `/uploads/activities/2_Orphanage/${i + 1}.JPG`;
                   }
                 }
@@ -39,7 +117,7 @@ function App() {
                 ...activity.certificate,
                 image: activity.certificate?.image?.startsWith('blob:') 
                   ? "" 
-                  : (actIdx === 1 && (!activity.certificate?.image || activity.certificate.image === '') 
+                  : (activity.id === 'orphanage-service' && (!activity.certificate?.image || activity.certificate.image === '') 
                       ? '/uploads/activities/2_Certificate/1.jpg' 
                       : activity.certificate?.image)
               }
@@ -52,51 +130,7 @@ function App() {
       }
     }
     
-    // Default high-fidelity documentary project
-    return [
-      {
-        id: 'hug-a-tree',
-        number: '01',
-        title: 'Hug a Tree',
-        date: '2026-03-20',
-        location: 'Davao City',
-        organization: 'University of Southeastern Philippines',
-        description: 'The tree I chose to observe stands tall within our school campus, its massive trunk gnarled and textured with deep ridges of bark that speak to years of quiet growth. Up close, the bark felt rough and layered, almost like cracked earth, with patches of moss and lichen clinging to its surface — signs of a thriving microhabitat on its own skin. The tree\'s branches fork dramatically near the top, spreading outward in thick, heavy limbs that cast generous shade over the surrounding concrete. Despite being rooted in an urban environment, the tree seemed to breathe life into the space around it — small plants and ground cover grew at its base, and the canopy above filtered the harsh midday sunlight into something gentler and cooler.\n\nWrapping my arms around the trunk and looking up at its branches, I felt something unexpectedly grounding — like I was briefly tethered to something much older and more patient than anything in my daily routine. It reminded me to slow down, even for just a few minutes, in the middle of everything busy. Trees are easy to overlook precisely because they are always there, but their role in our ecosystem is immense: they produce the oxygen we breathe, regulate temperature, prevent soil erosion, store carbon, and provide shelter for countless organisms. In a campus setting, a single tree like this one quietly improves air quality, reduces heat, and offers a space of calm amid the noise. This activity was a simple but meaningful reminder that caring for the environment starts with something as small as noticing — and appreciating — what is already around us.',
-        photos: [
-          { src: '/uploads/activities/1_Hug_Tree/1.jpg', caption: 'My First Time Hugging a Tree', position: 'left top', zoom: 'zoom' },
-          { src: '/uploads/activities/1_Hug_Tree/2.jpg', caption: 'The Sense of Relief feeling the oldest tree in the Campus', position: 'center top', zoom: 'zoom' },
-          { src: '/uploads/activities/1_Hug_Tree/3.jpg', caption: 'Oldest Tree in the Campus', position: 'left top', zoom: 'zoom' }
-        ],
-        certificate: { org: '', date: '', image: '' },
-        reflection: '"Slow down, Relax, Even for just a few minutes, in the middle of everything Busy"',
-        hoursOfService: 1,
-        volunteersEngaged: 2,
-        livesTouched: 5
-      },
-      {
-        id: 'orphanage-service',
-        number: '02',
-        title: 'An Orphanage Community Service',
-        date: '2026-04-17',
-        location: 'Tugbok, Davao City, Davao del Sur',
-        organization: 'Tugbok, Davao City, Davao del Sur',
-        description: 'The Field of Dreams Children\'s Charity Foundation sits quietly in Purok 1, Biao Guianga, Tugbok District — a place that, from the outside, looks simple, but the moment you step inside, you realize it holds something much bigger than its walls. On April 17, 2026, a combined team of CAS and CIC students spent the morning with the children there, and what was supposed to be just a community service activity turned into one of those experiences that stays with you longer than you expect.\n\nWe arrived at 8:00 AM and were welcomed by Mr. Jonathan Cabaljog, the Center Head, and Mr. Leonard Culanag Jr. The children were already gathered, and just seeing their energy that early in the morning set the tone for everything that followed. As one of the event heads representing CIC, I worked alongside CAS students to coordinate the flow of the program — from the opening remarks all the way to the parlor games and snack distribution. What made this collaboration feel special was seeing two colleges with different backgrounds come together for the same purpose. Ms. Rolyn Ann Floresta Bendanillo led an environmental talk that connected well with the kids, reminding them that even small habits like proper waste disposal and caring for plants are acts of love for the world they live in. The B-Relay game and the B-Wish Tree activity brought out a lot of laughter, which honestly made the whole morning feel lighter and more meaningful.',
-        photos: [
-          { src: '/uploads/activities/2_Orphanage/1.JPG', caption: 'Field of Dreams with the Orphanage Kids', position: 'center center', zoom: 'zoom' },
-          { src: '/uploads/activities/2_Orphanage/2.JPG', caption: 'CIC Students at FOD', position: 'center center', zoom: 'zoom' },
-          { src: '/uploads/activities/2_Orphanage/3.JPG', caption: 'CIC x CAS Students at FOD', position: 'center center', zoom: 'zoom' }
-        ],
-        certificate: { 
-          org: 'Field of Dreams Children’s Charity Foundation Inc.', 
-          date: '2026-04-17', 
-          image: '/uploads/activities/2_Certificate/1.jpg' 
-        },
-        reflection: '"Protecting the environment and caring for people are not two separate things. They are part of the same responsibility."',
-        hoursOfService: 5,
-        volunteersEngaged: 15,
-        livesTouched: 21
-      }
-    ];
+    return defaultActivities;
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -176,9 +210,9 @@ function App() {
               photos: activity.photos.map((photo, i) => {
                 let currentSrc = photo.src?.startsWith('blob:') ? "" : photo.src;
                 if (!currentSrc || currentSrc.trim() === '') {
-                  if (actIdx === 0) {
+                  if (activity.id === 'hug-a-tree') {
                     currentSrc = `/uploads/activities/1_Hug_Tree/${i + 1}.jpg`;
-                  } else if (actIdx === 1) {
+                  } else if (activity.id === 'orphanage-service') {
                     currentSrc = `/uploads/activities/2_Orphanage/${i + 1}.JPG`;
                   }
                 }
@@ -188,7 +222,7 @@ function App() {
                 ...activity.certificate,
                 image: activity.certificate?.image?.startsWith('blob:') 
                   ? "" 
-                  : (actIdx === 1 && (!activity.certificate?.image || activity.certificate.image === '') 
+                  : (activity.id === 'orphanage-service' && (!activity.certificate?.image || activity.certificate.image === '') 
                       ? '/uploads/activities/2_Certificate/1.jpg' 
                       : activity.certificate?.image)
               }

@@ -40,5 +40,28 @@
     "hoursOfService": 5,
     "volunteersEngaged": 15,
     "livesTouched": 21
+  },
+  {
+    "id": "coastal-restoration",
+    "number": "03",
+    "title": "Coastal Restoration Project",
+    "date": "2026-05-10",
+    "location": "Pacific Shores",
+    "organization: "Ocean Guardian Alliance",
+    "description": "Participated in a large-scale coastal cleanup and mangrove planting initiative. We removed over 200kg of marine debris and planted 50 mangrove saplings to prevent coastal erosion.",
+    "photos": [
+      { "src": "https://picsum.photos/seed/ocean1/800/600", "caption": "Gathering at dawn for the restoration briefing.", "position": "center top", "zoom": "wide" },
+      { "src": "https://picsum.photos/seed/ocean2/800/600", "caption": "Planting mangrove saplings in the intertidal zone.", "position": "center center", "zoom": "zoom" },
+      { "src": "https://picsum.photos/seed/ocean3/800/600", "caption": "Documenting the diverse micro-ecosystems of the shore.", "position": "center top", "zoom": "zoom" }
+    ],
+    "certificate": {
+      "org": "Ocean Guardian Alliance",
+      "date": "2026-05-10",
+      "image": ""
+    },
+    "reflection": "The ocean's edge is a mirror. What we leave on the shore, we eventually find back in our own lives.",
+    "hoursOfService": 6,
+    "volunteersEngaged": 25,
+    "livesTouched": 0
   }
 ]
