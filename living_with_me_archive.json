@@ -40,5 +40,24 @@
     "hoursOfService": 5,
     "volunteersEngaged": 15,
     "livesTouched": 21
+  },
+  {
+    "id": "coastal-restoration",
+    "number": "03",
+    "title": "Coastal Ecosystem Restoration",
+    "date": "2026-04-10",
+    "location": "Azure Ridge Coast",
+    "organization": "Ocean Guardians",
+    "description": "A physically demanding day dedicated to removing non-biodegradable waste from the fragile coastal hatcheries. This effort focuses on protecting the nesting grounds of local marine life and ensuring the longevity of our coastal ecosystems.",
+    "photos": [
+      { "src": "https://picsum.photos/seed/coastal-1/800/600", "caption": "The restoration line in action", "position": "center top", "zoom": "wide" },
+      { "src": "https://picsum.photos/seed/coastal-2/800/600", "caption": "Removing debris from the mangroves", "position": "center center", "zoom": "zoom" },
+      { "src": "https://picsum.photos/seed/coastal-3/800/600", "caption": "Documenting the clean shoreline", "position": "center top", "zoom": "zoom" }
+    ],
+    "certificate": { "org": "Coastal Commission", "date": "2026-04-10", "image": "" },
+    "reflection": "\"The sheer volume of waste we removed was sobering, but the sight of a clean shoreline was worth every second.\"",
+    "hoursOfService": 8,
+    "volunteersEngaged": 25,
+    "livesTouched": 300
   }
 ]
