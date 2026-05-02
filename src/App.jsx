@@ -56,27 +56,23 @@ function App() {
       livesTouched: 21
     },
     {
-      id: 'coastal-restoration',
+      id: 'community-tree-planting',
       number: '03',
-      title: 'Coastal Restoration Project',
-      date: '2026-05-10',
-      location: 'Pacific Shores',
-      organization: 'Ocean Guardian Alliance',
-      description: 'Participated in a large-scale coastal cleanup and mangrove planting initiative. We removed over 200kg of marine debris and planted 50 mangrove saplings to prevent coastal erosion.',
+      title: 'Community Tree Planting',
+      date: '2026-05-02',
+      location: 'Coastal Road, Davao City, Davao Del Sur',
+      organization: 'USeP',
+      description: 'On May 1, 2026, we spent our time from 11 am to 2 pm doing a coastal cleanup and planting mangroves. As students from USeP, we joined this activity as volunteers because we want to help restore the aquatic ecosystems in our local area. Even though it was the middle of the day and very hot, it felt good to take action for the environment. Picking up trash and planting those trees showed me how much work it takes to protect nature. We hope that these mangroves will grow and provide a better home for marine life in the future. It was a great experience to work together with my classmates for a cause that actually matters for our community. Growing up near these waters makes you realize that we need to be the ones looking after them. Taking part in this restoration drive was a small step, but it felt like we were doing something real to help our environment heal.',
       photos: [
-        { src: 'https://picsum.photos/seed/ocean1/800/600', caption: 'Gathering at dawn for the restoration briefing.', position: 'center top', zoom: 'wide' },
-        { src: 'https://picsum.photos/seed/ocean2/800/600', caption: 'Planting mangrove saplings in the intertidal zone.', position: 'center center', zoom: 'zoom' },
-        { src: 'https://picsum.photos/seed/ocean3/800/600', caption: 'Documenting the diverse micro-ecosystems of the shore.', position: 'center top', zoom: 'zoom' }
+        { src: '/uploads/activities/3_Tree_Planting/1.jpg', caption: 'Tree Planting Activity', position: 'center center', zoom: 'zoom' },
+        { src: '/uploads/activities/3_Tree_Planting/2.JPG', caption: 'Tree Planting Activity', position: 'center center', zoom: 'zoom' },
+        { src: '/uploads/activities/3_Tree_Planting/3.jpg', caption: 'Tree Planting Activity', position: 'center center', zoom: 'zoom' }
       ],
-      certificate: {
-        org: "Ocean Guardian Alliance",
-        date: "2026-05-10",
-        image: ""
-      },
-      reflection: "The ocean's edge is a mirror. What we leave on the shore, we eventually find back in our own lives.",
-      hoursOfService: 6,
-      volunteersEngaged: 25,
-      livesTouched: 0
+      certificate: { org: '', date: '', image: '' },
+      reflection: '',
+      hoursOfService: 3,
+      volunteersEngaged: 15,
+      livesTouched: 100
     }
   ];
 
