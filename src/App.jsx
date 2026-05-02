@@ -11,49 +11,16 @@ import AddEventModal from './components/AddEventModal'
 import Footer from './components/Footer'
 
 function App() {
+  // Data Versioning for breaking changes or new default content
+  const DATA_VERSION = "2026-05-02-v1";
+
   // Initialize from LocalStorage or empty array
   const [activities, setActivities] = useState(() => {
     const saved = localStorage.getItem('living_with_me_portfolio');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.length > 0) {
-          // SELF-HEALING: Clear expired blobs and inject local folder paths for known activities
-          return parsed.map((activity, actIdx) => {
-            return {
-              ...activity,
-              photos: activity.photos.map((photo, i) => {
-                let currentSrc = photo.src?.startsWith('blob:') ? "" : photo.src;
-                
-                // If the link is empty or broken, auto-link to our new local folders for the first two activities
-                if (!currentSrc || currentSrc.trim() === '') {
-                  if (actIdx === 0) {
-                    currentSrc = `/uploads/activities/1_Hug_Tree/${i + 1}.jpg`;
-                  } else if (actIdx === 1) {
-                    currentSrc = `/uploads/activities/2_Orphanage/${i + 1}.JPG`;
-                  }
-                }
-                return { ...photo, src: currentSrc };
-              }),
-              certificate: {
-                ...activity.certificate,
-                image: activity.certificate?.image?.startsWith('blob:') 
-                  ? "" 
-                  : (actIdx === 1 && (!activity.certificate?.image || activity.certificate.image === '') 
-                      ? '/uploads/activities/2_Certificate/1.jpg' 
-                      : activity.certificate?.image)
-              }
-            };
-          });
-        }
-      } catch (err) {
-        console.error("Archive corruption detected, resetting storage.");
-        localStorage.removeItem('living_with_me_portfolio');
-      }
-    }
+    const savedVersion = localStorage.getItem('living_with_me_version');
     
-    // Default high-fidelity documentary project
-    return [
+    // Default high-fidelity documentary project (Source of Truth for Defaults)
+    const defaultActivities = [
       {
         id: 'hug-a-tree',
         number: '01',
@@ -116,6 +83,62 @@ function App() {
         livesTouched: 300
       }
     ];
+
+    if (saved) {
+      try {
+        let parsed = JSON.parse(saved);
+        
+        // AUTO-SYNC: If the user has fewer than 3 activities and hasn't updated to this version, 
+        // we merge or append missing defaults.
+        if (savedVersion !== DATA_VERSION || parsed.length < 3) {
+          console.log("Synchronizing with latest project archive...");
+          
+          // Identify missing default IDs
+          const existingIds = new Set(parsed.map(a => a.id));
+          const missingDefaults = defaultActivities.filter(def => !existingIds.has(def.id));
+          
+          if (missingDefaults.length > 0) {
+            parsed = [...parsed, ...missingDefaults].sort((a, b) => parseInt(a.number) - parseInt(b.number));
+            // Force save version to prevent infinite logs
+            localStorage.setItem('living_with_me_version', DATA_VERSION);
+          }
+        }
+
+        if (parsed && parsed.length > 0) {
+          return parsed.map((activity, actIdx) => {
+            return {
+              ...activity,
+              photos: activity.photos.map((photo, i) => {
+                let currentSrc = photo.src?.startsWith('blob:') ? "" : photo.src;
+                
+                // If the link is empty or broken, auto-link to our new local folders for the first two activities
+                if (!currentSrc || currentSrc.trim() === '') {
+                  if (activity.id === 'hug-a-tree') {
+                    currentSrc = `/uploads/activities/1_Hug_Tree/${i + 1}.jpg`;
+                  } else if (activity.id === 'orphanage-service') {
+                    currentSrc = `/uploads/activities/2_Orphanage/${i + 1}.JPG`;
+                  }
+                }
+                return { ...photo, src: currentSrc };
+              }),
+              certificate: {
+                ...activity.certificate,
+                image: activity.certificate?.image?.startsWith('blob:') 
+                  ? "" 
+                  : (activity.id === 'orphanage-service' && (!activity.certificate?.image || activity.certificate.image === '') 
+                      ? '/uploads/activities/2_Certificate/1.jpg' 
+                      : activity.certificate?.image)
+              }
+            };
+          });
+        }
+      } catch (err) {
+        console.error("Archive corruption detected, resetting storage.");
+        localStorage.removeItem('living_with_me_portfolio');
+      }
+    }
+    
+    return defaultActivities;
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -125,6 +148,7 @@ function App() {
   // Persistence Hook
   useEffect(() => {
     localStorage.setItem('living_with_me_portfolio', JSON.stringify(activities));
+    localStorage.setItem('living_with_me_version', DATA_VERSION);
   }, [activities]);
 
   const { scrollYProgress } = useScroll();
