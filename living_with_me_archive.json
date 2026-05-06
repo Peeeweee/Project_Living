@@ -1,6 +1,7 @@
 [
   {
     "id": "hug-a-tree",
+    "type": "activity",
     "number": "01",
     "title": "Hug a Tree",
     "date": "2026-03-20",
@@ -39,6 +40,7 @@
   },
   {
     "id": "orphanage-service",
+    "type": "activity",
     "number": "02",
     "title": "An Orphanage Community Service",
     "date": "2026-04-17",
@@ -77,6 +79,7 @@
   },
   {
     "id": "community-tree-planting",
+    "type": "activity",
     "number": "03",
     "title": "Community Tree Planting",
     "date": "2026-05-02",
@@ -112,5 +115,32 @@
     "hoursOfService": 3,
     "volunteersEngaged": 15,
     "livesTouched": 100
+  },
+  {
+    "id": "slogan-mining",
+    "type": "slogan",
+    "number": "04",
+    "title": "Settle for Old Not Gold",
+    "date": "2026-05-06",
+    "location": "Mindanao, Philippines",
+    "organization": "By: Kent Paulo Delgado",
+    "description": "The slogan \"Settle for Old, Not Gold\" is a call to choose what already exists over what mining promises to bring. Literally, it tells communities to hold on to what is old: the clean rivers, the forests, the land that has sustained generations of families long before any mining company arrived. \"Gold\" here refers not just to the mineral being extracted but to the economic pitch that comes with it — the promise of jobs, infrastructure, and development. The slogan pushes back against that pitch by saying that what we already have is worth more than what we are being offered. Clean water, fertile soil, and intact ecosystems are not things that can be replaced once they are gone, and no check from a mining company can bring them back.\n\nOn a deeper level, the slogan is about cultural and generational identity. \"Old\" does not mean outdated or primitive. It means rooted, proven, and alive. For many communities in Mindanao, rivers and mountains are not just natural resources — they are part of indigenous traditions, spiritual practices, and ways of life that have existed for centuries. When mining operations tear into those landscapes, they do not only destroy the environment. They erase history and cut off future generations from the world their ancestors knew. \"Settle for Old, Not Gold\" is a quiet act of defiance against the idea that progress always means extraction. It reframes \"settling\" not as giving up, but as choosing wisely — because choosing clean rivers over short-term profit is not a compromise. It is the smarter and braver decision.\n\nI chose mining because its effects are real and close to home. Davao and the wider Mindanao region sit on some of the richest mineral deposits in the country, which makes them constant targets for large-scale and small-scale mining alike. Communities near active mining areas have reported murky rivers, dying fish populations, and land that no longer supports farming the way it used to. Indigenous groups, in particular, have been fighting for years to protect their ancestral domains from operations that treat their land as a resource to be used up and moved on from. This slogan is my small way of joining that conversation. It is short enough to fit on a poster or a phone screen, but the idea behind it is serious: what we already have is irreplaceable, and we should stop being convinced otherwise.",
+    "photos": [
+      {
+        "src": "/uploads/activities/4_Slogan/Slogan.png",
+        "caption": "Settle for Old Not Gold - Mining Pollution",
+        "position": "center center",
+        "zoom": "zoom"
+      }
+    ],
+    "certificate": {
+      "org": "",
+      "date": "",
+      "image": ""
+    },
+    "reflection": "Settle for Old Not Gold",
+    "hoursOfService": 0,
+    "volunteersEngaged": 0,
+    "livesTouched": 0
   }
 ]

@@ -77,47 +77,53 @@ const ActivityDetail = ({ activity, editMode, onEdit, onDelete }) => {
             
             <div className="pt-8 border-t border-muted/20 space-y-4">
               <div className="flex flex-col">
-                <span className="uppercase tracking-widest text-xs text-amber font-bold mb-1">Date</span>
-                <span className="font-sans text-sm text-charcoal">{date}</span>
+                <span className="uppercase tracking-widest text-xs text-amber font-bold mb-1">{activity.type === 'slogan' ? 'Topic' : 'Date'}</span>
+                <span className="font-sans text-sm text-charcoal">{activity.type === 'slogan' ? 'Mining Pollution' : date}</span>
               </div>
               <div className="flex flex-col">
                 <span className="uppercase tracking-widest text-xs text-amber font-bold mb-1">Location</span>
                 <span className="font-sans text-sm text-charcoal">{location}</span>
               </div>
               <div className="flex flex-col">
-                <span className="uppercase tracking-widest text-xs text-amber font-bold mb-1">Organization</span>
+                <span className="uppercase tracking-widest text-xs text-amber font-bold mb-1">{activity.type === 'slogan' ? 'Author' : 'Organization'}</span>
                 <span className="font-sans text-sm text-charcoal">{organization}</span>
               </div>
             </div>
           </div>
 
-          {/* Certificate Display */}
-          <div className="border-2 border-dashed border-amber/40 bg-amber/5 p-8 text-center rounded-sm overflow-hidden group relative">
-            {certificate.image ? (
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src={certificate.image} 
-                  alt="Official Certificate" 
-                  className="w-full h-full object-cover opacity-20 grayscale blur-[1px] group-hover:opacity-40 transition-opacity"
-                />
-              </div>
-            ) : null}
-            
-            <div className="relative z-10">
-              <span className="block uppercase tracking-editorial text-[10px] text-amber mb-4">Official Validation</span>
-              <h4 className="font-serif text-xl text-green-dark mb-2">Certificate of Participation</h4>
-              <p className="text-[10px] font-sans text-muted uppercase font-bold">Issued by {certificate.org} • {certificate.date}</p>
+          {/* Certificate Display - Only show if it has an organization or image */}
+          {(certificate.org || certificate.image) && (
+            <div className="border-2 border-dashed border-amber/40 bg-amber/5 p-8 text-center rounded-sm overflow-hidden group relative">
+              {certificate.image ? (
+                <div className="absolute inset-0 z-0">
+                  <img 
+                    src={certificate.image} 
+                    alt="Official Certificate" 
+                    className="w-full h-full object-cover opacity-20 grayscale blur-[1px] group-hover:opacity-40 transition-opacity"
+                  />
+                </div>
+              ) : null}
               
-              {certificate.image && (
-                <button 
-                  onClick={() => window.open(certificate.image, '_blank')}
-                  className="mt-4 px-4 py-2 bg-amber/10 border border-amber/20 text-amber text-[9px] uppercase font-bold tracking-widest hover:bg-amber hover:text-white transition-all rounded-sm"
-                >
-                  View Full Document
-                </button>
-              )}
+              <div className="relative z-10">
+                <span className="block uppercase tracking-editorial text-[10px] text-amber mb-4">Official Validation</span>
+                <h4 className="font-serif text-xl text-green-dark mb-2">Certificate of Participation</h4>
+                <p className="text-[10px] font-sans text-muted uppercase font-bold">
+                  {certificate.org && `Issued by ${certificate.org}`}
+                  {certificate.org && certificate.date && ` • `}
+                  {certificate.date}
+                </p>
+                
+                {certificate.image && (
+                  <button 
+                    onClick={() => window.open(certificate.image, '_blank')}
+                    className="mt-4 px-4 py-2 bg-amber/10 border border-amber/20 text-amber text-[9px] uppercase font-bold tracking-widest hover:bg-amber hover:text-white transition-all rounded-sm"
+                  >
+                    View Full Document
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

@@ -41,11 +41,12 @@ const StatCard = ({ target, label, index }) => {
 
 const ImpactSection = ({ activities }) => {
   // Calculate dynamic totals from activities
+  const activityStats = activities.filter(a => a.type === 'activity');
   const stats = [
-    { target: activities.length, label: "Activities Completed" },
-    { target: activities.reduce((sum, a) => sum + (a.hoursOfService || 0), 0), label: "Hours of Service" },
-    { target: activities.reduce((sum, a) => sum + (a.volunteersEngaged || 0), 0), label: "Volunteers Engaged" },
-    { target: activities.reduce((sum, a) => sum + (a.livesTouched || 0), 0), label: "Lives Touched" }
+    { target: activityStats.length, label: "Activities Completed" },
+    { target: activityStats.reduce((sum, a) => sum + (a.hoursOfService || 0), 0), label: "Hours of Service" },
+    { target: activityStats.reduce((sum, a) => sum + (a.volunteersEngaged || 0), 0), label: "Volunteers Engaged" },
+    { target: activityStats.reduce((sum, a) => sum + (a.livesTouched || 0), 0), label: "Lives Touched" }
   ];
 
   return (
