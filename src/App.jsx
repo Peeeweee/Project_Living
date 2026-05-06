@@ -72,7 +72,7 @@ function App() {
         { src: '/uploads/activities/3_Tree_Planting/3.jpg', caption: 'Tree Planting Activity', position: 'center center', zoom: 'zoom' }
       ],
       certificate: { org: '', date: '', image: '' },
-      reflection: '',
+      reflection: "We Can't Live Tomorrow If We Will Leave Our Today",
       hoursOfService: 3,
       volunteersEngaged: 15,
       livesTouched: 100
@@ -91,9 +91,9 @@ function App() {
       ],
       certificate: { org: '', date: '', image: '' },
       reflection: 'Settle for Old Not Gold',
-      hoursOfService: 0,
-      volunteersEngaged: 0,
-      livesTouched: 0
+      hoursOfService: 2,
+      volunteersEngaged: 35,
+      livesTouched: 6
     }
   ];
 
